@@ -9,15 +9,26 @@ import AVFAudio
 import Cocoa
 import Foundation
 
+let arguments = CommandLine.arguments
+
+if arguments.count != 6 {
+    print("usage: wav2images input_file output_dir sample_rate channels frame_rate")
+    exit(0)
+}
+
+let inputFile = arguments[1]
+let outputDir = arguments[2]
+let sampleRate = Double(arguments[3])!
+let channels = AVAudioChannelCount(arguments[4])!
+let frameRate = Double(arguments[5])!
+
 let width = 1920
 let height = 1080
-let sampleRate = 44100
-let frameRate = 60
 let samplesPerImage = sampleRate / frameRate
 
-let url = URL(fileURLWithPath: "/Users/rm/Desktop/pink.wav")
+let url = URL(fileURLWithPath: inputFile)
 let file = try! AVAudioFile(forReading: url)
-let format = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)!
+let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: channels)!
 let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samplesPerImage))!
 
 var fileCounter = 0
@@ -56,7 +67,7 @@ while file.framePosition < file.length {
     context.strokePath()
 
     let image = context.makeImage()!
-    let destinationURL = URL(fileURLWithPath: "/Users/rm/Desktop/output/image \(fileCounter).png")
+    let destinationURL = URL(fileURLWithPath: "\(outputDir)/image \(fileCounter).png")
     let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, kUTTypePNG, 1, nil)!
     CGImageDestinationAddImage(destination, image, nil)
     CGImageDestinationFinalize(destination)
