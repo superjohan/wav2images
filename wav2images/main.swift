@@ -45,7 +45,7 @@ while file.framePosition < file.length {
         height: height,
         bitsPerComponent: 8,
         bytesPerRow: 0,
-        space: CGColorSpace(name: CGColorSpace.genericRGBLinear)!,
+        space: CGColorSpace(name: CGColorSpace.sRGB)!,
         bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
     )!
 
