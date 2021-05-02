@@ -48,9 +48,10 @@ while file.framePosition < file.length {
         bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
     )!
 
-    context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
-    context.addRect(CGRect(x: 0, y: 0, width: width, height: height))
-    context.setStrokeColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+    context.setFillColor(CGColor(red: 45.0 / 255.0, green: 41.0 / 255.0, blue: 38.0 / 255.0, alpha: 1))
+    context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+    context.setStrokeColor(CGColor(red: 233.0 / 255.0, green: 75.0 / 255.0, blue: 60.0 / 255.0, alpha: 1))
+    context.setLineWidth(10)
     context.beginPath()
     
     func y(_ sample: Float) -> CGFloat {
