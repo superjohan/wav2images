@@ -52,15 +52,18 @@ while file.framePosition < file.length {
     context.addRect(CGRect(x: 0, y: 0, width: width, height: height))
     context.setStrokeColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
     context.beginPath()
-    context.move(to: CGPoint(x: 0, y: CGFloat(height) / 2.0))
+    
+    func y(_ sample: Float) -> CGFloat {
+        CGFloat(((sample + 1.0) / 2.0) * Float(height))
+    }
+    
+    context.move(to: CGPoint(x: 0, y: y(samples[0])))
     
     let xStride = CGFloat(width) / CGFloat(samplesPerImage)
     var x = CGFloat(0)
     
     for sample in samples {
-        let y = CGFloat(((sample + 1.0) / 2.0) * Float(height))
-        
-        context.addLine(to: CGPoint(x: x, y: y))
+        context.addLine(to: CGPoint(x: x, y: y(sample)))
         
         x += xStride
     }
