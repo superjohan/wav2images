@@ -32,6 +32,7 @@ let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: c
 let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samplesPerImage))!
 
 var fileCounter = 0
+let totalFrames = Int(ceil(Double(file.length) / samplesPerImage))
 
 while file.framePosition < file.length {
     try! file.read(into: buffer)
@@ -74,6 +75,9 @@ while file.framePosition < file.length {
     
     fileCounter += 1
     
-    print("rendered frame \(fileCounter)")
+    if fileCounter % 100 == 0 {
+        print("\(fileCounter) frames of \(totalFrames) rendered")
+    }
 }
 
+print("done! \(fileCounter) total frames rendered")
