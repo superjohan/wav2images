@@ -32,7 +32,8 @@ let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: c
 let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samplesPerImage))!
 
 var fileCounter = 0
-let totalFrames = Int(ceil(Double(file.length) / samplesPerImage))
+let totalFrames = ceil(Double(file.length) / samplesPerImage)
+let digits = totalFrames > 0 ? Int(log10(totalFrames)) + 1 : 1
 
 while file.framePosition < file.length {
     try! file.read(into: buffer)
@@ -72,7 +73,8 @@ while file.framePosition < file.length {
     context.strokePath()
 
     let image = context.makeImage()!
-    let destinationURL = URL(fileURLWithPath: "\(outputDir)/image \(fileCounter).png")
+    let filename = String(format: "image %0\(digits)d.png", fileCounter)
+    let destinationURL = URL(fileURLWithPath: "\(outputDir)/\(filename)")
     let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, kUTTypePNG, 1, nil)!
     CGImageDestinationAddImage(destination, image, nil)
     CGImageDestinationFinalize(destination)
@@ -80,7 +82,7 @@ while file.framePosition < file.length {
     fileCounter += 1
     
     if fileCounter % 100 == 0 {
-        print("\(fileCounter) frames of \(totalFrames) rendered")
+        print("\(fileCounter) frames of \(Int(totalFrames)) rendered")
     }
 }
 
