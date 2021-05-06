@@ -53,9 +53,9 @@ while file.framePosition < file.length {
         bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
     )!
 
-    context.setFillColor(CGColor(red: 45.0 / 255.0, green: 41.0 / 255.0, blue: 38.0 / 255.0, alpha: 1))
+    context.setFillColor(config.backgroundColor.cgColor)
     context.fill(CGRect(x: 0, y: 0, width: width, height: height))
-    context.setStrokeColor(CGColor(red: 233.0 / 255.0, green: 75.0 / 255.0, blue: 60.0 / 255.0, alpha: 1))
+    context.setStrokeColor(config.waveColor.cgColor)
     context.setLineWidth(10)
     context.beginPath()
     
