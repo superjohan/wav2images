@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9007E0FB26444E9800058277 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9007E0FA26444E9800058277 /* Config.swift */; };
 		90D794B1263EE19B00C96403 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D794B0263EE19B00C96403 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9007E0FA26444E9800058277 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		90D794AD263EE19B00C96403 /* wav2images */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wav2images; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D794B0263EE19B00C96403 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				90D794B0263EE19B00C96403 /* main.swift */,
+				9007E0FA26444E9800058277 /* Config.swift */,
 			);
 			path = wav2images;
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90D794B1263EE19B00C96403 /* main.swift in Sources */,
+				9007E0FB26444E9800058277 /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
