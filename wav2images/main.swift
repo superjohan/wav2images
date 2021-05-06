@@ -18,6 +18,8 @@ if arguments.count != 2 {
 
 let configFile = "/Users/rm/tmp/config.json"//arguments[1]
 let config = Config.decode(path: configFile)
+dump(config)
+
 let inputFile = config.inputFile
 let outputDir = config.outputDir
 let sampleRate = config.sampleRate
