@@ -16,7 +16,7 @@ if arguments.count != 2 {
     exit(0)
 }
 
-let configFile = "/Users/rm/tmp/config.json"//arguments[1]
+let configFile = arguments[1]
 let config = Config.decode(path: configFile)
 dump(config)
 
