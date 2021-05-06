@@ -11,16 +11,18 @@ import Foundation
 
 let arguments = CommandLine.arguments
 
-if arguments.count != 6 {
-    print("usage: wav2images input_file output_dir sample_rate channels frame_rate")
+if arguments.count != 2 {
+    print("usage: wav2images config_json_file")
     exit(0)
 }
 
-let inputFile = arguments[1]
-let outputDir = arguments[2]
-let sampleRate = Double(arguments[3])!
-let channels = AVAudioChannelCount(arguments[4])!
-let frameRate = Double(arguments[5])!
+let configFile = "/Users/rm/tmp/config.json"//arguments[1]
+let config = Config.decode(path: configFile)
+let inputFile = config.inputFile
+let outputDir = config.outputDir
+let sampleRate = config.sampleRate
+let channels = config.channels
+let frameRate = config.frameRate
 
 let width = 1920
 let height = 1080
