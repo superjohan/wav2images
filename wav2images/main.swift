@@ -56,7 +56,7 @@ while file.framePosition < file.length {
     context.setFillColor(config.backgroundColor.cgColor)
     context.fill(CGRect(x: 0, y: 0, width: width, height: height))
     context.setStrokeColor(config.waveColor.cgColor)
-    context.setLineWidth(10)
+    context.setLineWidth(config.lineWidth)
     context.beginPath()
     
     func y(_ sample: Float) -> CGFloat {
