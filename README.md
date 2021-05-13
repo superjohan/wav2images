@@ -1,6 +1,6 @@
 # wav2images
 
-Generate images based on the waveform of an audio file. 
+Generate images based on the waveform of an audio file. More features will be added as needed.
 
 No exceptions are handled, so any and all errors crash the app.
 
