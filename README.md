@@ -1,8 +1,10 @@
 # wav2images
 
-Generate images based on the waveform of an audio file.
+Generate images based on the waveform of an audio file. 
 
-Example config:
+No exceptions are handled, so any and all errors crash the app.
+
+## Example config
 
 ```json
 {
