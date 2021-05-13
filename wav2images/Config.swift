@@ -17,6 +17,7 @@ struct Config: Decodable {
     let waveColor: Color
     let backgroundColor: Color
     let lineWidth: CGFloat
+    let test: Bool
     
     static func decode(path: String) -> Config {
         let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path))

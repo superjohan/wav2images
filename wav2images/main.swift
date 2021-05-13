@@ -25,6 +25,7 @@ let outputDir = config.outputDir
 let sampleRate = config.sampleRate
 let channels = config.channels
 let frameRate = config.frameRate
+let isTest = config.test
 
 let width = 1920
 let height = 1080
@@ -87,6 +88,11 @@ while file.framePosition < file.length {
     
     if fileCounter % 100 == 0 {
         print("\(fileCounter) frames of \(Int(totalFrames)) rendered")
+    }
+    
+    if (isTest) {
+        print("test frame rendered")
+        exit(0)
     }
 }
 
