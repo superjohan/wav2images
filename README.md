@@ -29,3 +29,9 @@ image sequence to ok quality h264:
 add aac audio:
 
     ffmpeg -i output.mp4 -i ~/Desktop/acid-video.wav -c:v copy -c:a aac -b:a 320k output2.mp4
+
+## Output examples
+
+["Route"](https://www.youtube.com/watch?v=PuPd5e2pCFs)
+
+["Blocking"](https://www.youtube.com/watch?v=hyFBcWBu8sM)
