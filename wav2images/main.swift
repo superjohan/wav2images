@@ -40,60 +40,73 @@ var fileCounter = 0
 let totalFrames = ceil(Double(file.length) / samplesPerImage)
 let digits = totalFrames > 0 ? Int(log10(totalFrames)) + 1 : 1
 
+let queue = DispatchQueue(label: "renderQueue", attributes: .concurrent)
+let group = DispatchGroup()
+
 while file.framePosition < file.length {
     try! file.read(into: buffer)
     let samples = Array(UnsafeBufferPointer(start: buffer.floatChannelData![0], count: Int(buffer.frameLength)))
-    
-    let context = CGContext(
-        data: nil,
-        width: width,
-        height: height,
-        bitsPerComponent: 8,
-        bytesPerRow: 0,
-        space: CGColorSpace(name: CGColorSpace.sRGB)!,
-        bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
-    )!
+    let fc = fileCounter
 
-    context.setFillColor(config.backgroundColor.cgColor)
-    context.fill(CGRect(x: 0, y: 0, width: width, height: height))
-    context.setStrokeColor(config.waveColor.cgColor)
-    context.setLineWidth(config.lineWidth)
-    context.beginPath()
+    group.enter()
     
-    func y(_ sample: Float) -> CGFloat {
-        CGFloat(((sample + 1.0) / 2.0) * Float(height))
-    }
-    
-    context.move(to: CGPoint(x: 0, y: y(samples[0])))
-    
-    let xStride = CGFloat(width) / CGFloat(samplesPerImage)
-    var x = CGFloat(0)
-    
-    for sample in samples {
-        context.addLine(to: CGPoint(x: x, y: y(sample)))
+    queue.async(group: group) {
+        let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: CGColorSpace(name: CGColorSpace.sRGB)!,
+            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
+        )!
+
+        context.setFillColor(config.backgroundColor.cgColor)
+        context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        context.setStrokeColor(config.waveColor.cgColor)
+        context.setLineWidth(config.lineWidth)
+        context.beginPath()
         
-        x += xStride
-    }
-    
-    context.strokePath()
+        func y(_ sample: Float) -> CGFloat {
+            CGFloat(((sample + 1.0) / 2.0) * Float(height))
+        }
+        
+        context.move(to: CGPoint(x: 0, y: y(samples[0])))
+        
+        let xStride = CGFloat(width) / CGFloat(samplesPerImage)
+        var x = CGFloat(0)
+        
+        for sample in samples {
+            context.addLine(to: CGPoint(x: x, y: y(sample)))
+            
+            x += xStride
+        }
+        
+        context.strokePath()
 
-    let image = context.makeImage()!
-    let filename = String(format: "image %0\(digits)d.png", fileCounter)
-    let destinationURL = URL(fileURLWithPath: "\(outputDir)/\(filename)")
-    let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, kUTTypePNG, 1, nil)!
-    CGImageDestinationAddImage(destination, image, nil)
-    CGImageDestinationFinalize(destination)
-    
+        let image = context.makeImage()!
+        let filename = String(format: "image %0\(digits)d.png", fc)
+        let destinationURL = URL(fileURLWithPath: "\(outputDir)/\(filename)")
+        let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, kUTTypePNG, 1, nil)!
+        CGImageDestinationAddImage(destination, image, nil)
+        CGImageDestinationFinalize(destination)
+
+        if fc % 100 == 0 {
+            print("\(fc) frames of \(Int(totalFrames)) rendered")
+        }
+        
+        // FIXME: this is goofy in an async context
+        if (isTest) {
+            print("test frame rendered")
+            exit(0)
+        }
+
+        group.leave()
+    }
+
     fileCounter += 1
-    
-    if fileCounter % 100 == 0 {
-        print("\(fileCounter) frames of \(Int(totalFrames)) rendered")
-    }
-    
-    if (isTest) {
-        print("test frame rendered")
-        exit(0)
-    }
 }
+
+group.wait()
 
 print("done! \(fileCounter) total frames rendered")
